@@ -1,0 +1,21 @@
+#include "stdafx.h"
+#include <iostream>
+#include "conio.h"
+using namespace std;
+
+	void main ()
+	{
+		int n,p,c,t;
+		t=0;
+		cout<<"Introduce un valor:"<<endl;
+		while (n>0)
+		{
+			c=n%10;
+			if (c%2=0){
+				t=t+1;
+			}
+			n=n/10;
+		}
+		cout<<c;
+		getch();
+	}
