@@ -1,0 +1,105 @@
+//Creando la clase
+
+#pragma once
+
+class parciial
+
+{private:
+
+  int parcial1;
+
+  int parcial2;
+
+  int practico;
+
+  int final;
+
+ 
+
+public:
+
+	parciial(void);
+
+	~parciial(void);
+
+	int notas(int p1,int p2,int pra,int fin);
+
+};
+
+//Programa principal para llamar la clase
+
+#include "stdafx.h"
+
+#include "parciial.h"
+
+#include <iostream>
+
+#include "conio.h"
+
+using namespace std;
+
+
+
+
+
+void main ()
+
+{parciial parcial1;
+
+ int a,b,c,d;
+
+ cout<<"Ingrese parciales: "<<endl;
+
+ cin>>a;
+
+ cin>>b;
+
+ cout<<"Ingrese practico: "<<endl;
+
+ cin>>c;
+
+ cout<<"Ingrese final: "<<endl;
+
+ cin>>d;
+
+ cout<<"La nota es: "<<parcial1.notas(a,b,c,d);
+
+ getch();
+
+
+
+	
+
+}
+
+
+
+
+
+
+
+parciial::parciial(void)
+
+{
+
+}
+
+
+
+
+
+parciial::~parciial(void)
+
+{
+
+}
+
+int parciial::notas(int p1,int p2,int pra,int fin)
+
+{int nota;
+
+ nota = (p1+p2)*0.4 + (pra*0.2) + (fin*0.4);
+
+ return nota;
+
+}
