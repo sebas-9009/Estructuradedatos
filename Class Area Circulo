@@ -1,0 +1,55 @@
+#pragma once
+class circulo
+{
+private:
+	float radio;
+	float area;
+
+
+
+
+public:
+	circulo(void);
+	~circulo(void);
+	float calculararea(float r);
+};
+
+
+
+
+
+
+
+#include "stdafx.h"
+#include "circulo.h"
+
+
+circulo::circulo(void)
+{
+	radio=3;
+}
+circulo::~circulo(void)
+{
+}
+float circulo::calculararea(float r)
+{
+	area=r*r*3.14;
+	return area;
+}
+		
+    // Area de un circulo.cpp : main project file.
+
+#include "stdafx.h"
+#include <iostream>
+#include "conio.h"
+#include "circulo.h"
+using namespace std;
+
+void main(){
+	circulo circulo1;
+	float x;
+	cout<<"Ingrese el radio: ";
+	cin>>x;
+	cout<<"El area del circulo es: "<<circulo1.calculararea(x)<<endl;
+	getch();
+}
