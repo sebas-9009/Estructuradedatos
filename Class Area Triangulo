@@ -1,0 +1,65 @@
+#pragma once
+//Declaracion de la clase
+class triangulo
+{
+	// Atributos - Variables
+private:
+	float base;
+	float altura;
+	float area;
+		
+
+
+	// Metodos - Funciones
+public:
+	triangulo(void); // Constructor - asigna memoria
+	~triangulo(void); // Deestructor - libera memoria
+	float calculararea(float b, float h);
+
+};
+
+
+
+
+#include "stdafx.h"
+#include "triangulo.h"
+
+//Implementacion de los metodos de la clase
+triangulo::triangulo(void)
+{
+	base=4;
+	altura=3;
+}
+
+triangulo::~triangulo(void)
+{
+}
+float triangulo::calculararea(float b, float h)
+{
+	area=(b*h)/2;
+	return area;
+}
+
+
+
+
+// Ejercicio 3.cpp : main project file.
+//Ejemplo del uso de la clase
+#include "stdafx.h"
+#include <iostream>
+#include "conio.h"
+#include "triangulo.h"
+using namespace std;
+
+void main (){
+	triangulo triangulo1, triangulo2;//Instancia o crear objeto
+	float x,y;
+	cout<<"Ingrese la base:";
+	cin>>x;
+	cout<<"Ingrese la altura:";
+	cin>>y;
+	cout<<"El area del triangulo es:"<<triangulo1.calculararea(x,y)<<endl;
+	getch();
+}
+
+
