@@ -1,0 +1,12 @@
+    private: System::Void OKEY_Click(System::Object^  sender, System::EventArgs^  e) {
+                 if((txt_user->Text !="ADMIN") || (txt_password->Text !="1234")){
+                     MessageBox::Show("Contraseña o Ususario Incorrectos","Error de autenticacion",
+                         MessageBoxButtons::OK,MessageBoxIcon::Error);
+                 }else{
+                     login^ x = gcnew login();
+                     this ->Hide();
+                     x->ShowDialog();
+                     this->Close();
+                 }
+
+             }
