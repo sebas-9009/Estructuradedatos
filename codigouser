@@ -1,0 +1,190 @@
+/**
+* clase amigo 
+* @author Rolando Martinez
+* 16/05/2018
+*/
+#include "StdAfx.h"
+#include <iostream>
+#include <fstream>
+
+using namespace std;
+
+class Amigo {
+private:
+	char	idAmigo[10];
+	char	nombre[30];
+	int		edad;
+	char	sexo;
+	char	estado;		//eliminado = E, activo = A
+
+public:
+	Amigo() {
+		strcpy(idAmigo,"");
+		strcpy(nombre,"");
+		edad		= 0;
+		sexo		= ' ';
+		estado		= ' ';
+	}
+	
+	Amigo(char idAm[], char nom[], int ed, char sx) {
+		strcpy(idAmigo,idAm);
+		strcpy(nombre,nom);
+		edad	= ed;
+		sexo	= sx;
+		estado  = 'A';
+	}
+
+	~Amigo(){
+		//destructor 
+	}
+	
+	void setAmigo(char idAm[], char nom[], int ed, char sx) {
+		strcpy(idAmigo,idAm);
+		strcpy(nombre,nom);
+		edad		= ed;
+		sexo		= sx;
+		estado		= 'A';
+	}
+
+	char *getIdAmigo() {
+		return(idAmigo);
+	}
+
+	char *getNombre() {
+		return(nombre);
+	}
+
+	int getEdad() {
+		return(edad);
+	}
+
+	char getSexo() {
+		return(sexo);
+	}
+
+	char getEstado() {
+		return(estado);
+	}
+
+	void guardarArchivo(ofstream &fsalida) {
+		fsalida.write(reinterpret_cast<char *>(&idAmigo), sizeof(idAmigo));
+		fsalida.write(reinterpret_cast<char *>(&nombre), sizeof(nombre));
+		fsalida.write(reinterpret_cast<char *>(&edad), sizeof(edad));
+		fsalida.write(reinterpret_cast<char *>(&sexo), sizeof(sexo));
+		fsalida.write(reinterpret_cast<char *>(&estado), sizeof(estado));
+	}
+
+	bool leerArchivo(ifstream &fentrada) {
+		bool k = false;
+		if (fentrada.is_open() == true) {
+			fentrada.read(reinterpret_cast<char *>(&idAmigo), sizeof(idAmigo));
+			if (fentrada.eof() == false) {		
+				fentrada.read(reinterpret_cast<char *>(&nombre), sizeof(nombre));
+				fentrada.read(reinterpret_cast<char *>(&edad), sizeof(edad));
+				fentrada.read(reinterpret_cast<char *>(&sexo), sizeof(sexo));
+				fentrada.read(reinterpret_cast<char *>(&estado), sizeof(estado));
+				k = true;
+			}else {
+				//cout << endl << "Registro no existe";
+			}
+		}else {
+			cout << endl << "Arhivo no existe";
+		}
+		return(k);
+	}
+
+	bool eliminar(fstream &fes, int nroReg){
+		bool k = false;
+		if (fes.is_open() == true) {
+			fes.seekg(getTamBytesRegistro() * (nroReg - 1), ios::beg);
+			fes.read(reinterpret_cast<char *>(&idAmigo), sizeof(idAmigo));
+			if (fes.eof() == false) {
+				fes.read(reinterpret_cast<char *>(&nombre), sizeof(nombre));
+				fes.read(reinterpret_cast<char *>(&edad), sizeof(edad));
+				fes.read(reinterpret_cast<char *>(&sexo), sizeof(sexo));
+				fes.read(reinterpret_cast<char *>(&estado), sizeof(estado));
+		
+				estado = 'E';
+				fes.seekp(getTamBytesRegistro() * (nroReg - 1), ios::beg);
+				fes.write(reinterpret_cast<char *>(&idAmigo), sizeof(idAmigo));
+				fes.write(reinterpret_cast<char *>(&nombre), sizeof(nombre));
+				fes.write(reinterpret_cast<char *>(&edad), sizeof(edad));
+				fes.write(reinterpret_cast<char *>(&sexo), sizeof(sexo));
+				fes.write(reinterpret_cast<char *>(&estado), sizeof(estado));
+				k = true;
+			}else {
+				cout << endl << "Registro no existe";
+			}			
+		}else {
+			cout << endl << "Arhivo no existe";
+		}
+		return(k);
+	}
+
+
+	bool modificar(fstream &fes, int nroReg){
+		bool k = false;
+		if (fes.is_open() == true) {
+			char aux[10];
+			strcpy(aux,idAmigo);
+			fes.seekg(getTamBytesRegistro() * (nroReg - 1), ios::beg);
+			fes.read(reinterpret_cast<char *>(&idAmigo), sizeof(idAmigo));
+			if (fes.eof() == false) {
+				strcpy(idAmigo,aux);
+				estado = 'A';
+				fes.seekp(getTamBytesRegistro() * (nroReg - 1), ios::beg);
+				fes.write(reinterpret_cast<char *>(&idAmigo), sizeof(idAmigo));
+				fes.write(reinterpret_cast<char *>(&nombre), sizeof(nombre));
+				fes.write(reinterpret_cast<char *>(&edad), sizeof(edad));
+				fes.write(reinterpret_cast<char *>(&sexo), sizeof(sexo));
+				fes.write(reinterpret_cast<char *>(&estado), sizeof(estado));
+				k = true;
+			}else {
+				cout << endl << "Registro no existe";
+			}			
+		}else {
+			cout << endl << "Arhivo no existe";
+		}
+		return(k);
+	}
+
+	bool buscar(ifstream &fentrada, int nroReg) {
+		bool k = false;
+		if (fentrada.is_open() == true) {
+			fentrada.seekg(getTamBytesRegistro() * (nroReg - 1), ios::beg);
+			fentrada.read(reinterpret_cast<char *>(&idAmigo), sizeof(idAmigo));
+			fentrada.read(reinterpret_cast<char *>(&nombre), sizeof(nombre));
+			fentrada.read(reinterpret_cast<char *>(&edad), sizeof(edad));
+			fentrada.read(reinterpret_cast<char *>(&sexo), sizeof(sexo));
+			fentrada.read(reinterpret_cast<char *>(&estado), sizeof(estado));
+			if (fentrada.eof() == false) {
+				k = true;
+			}
+			else {
+				//cout << endl << "Registro no XX existe";
+			}
+		}
+		else {
+			cout << endl << "Arhivo no existe";
+		}
+		return(k);
+	}
+
+	int getTamBytesRegistro() {
+		return(sizeof(idAmigo) + sizeof(nombre) + sizeof(edad) + sizeof(sexo) + sizeof(estado) );
+	}
+
+	bool getRegAmigo(char nomArchAmigo[],char idPr[]){
+		//listar  
+		bool  k = false;
+		ifstream fentrada(nomArchAmigo, ios::in | ios::binary);
+		while ((k == false) && (leerArchivo(fentrada) == true) ) {
+			 if (getEstado() == 'A' && (strcmp(idPr, getIdAmigo()) == 0)) {
+				 k       = true; 
+			 }
+		 }
+		 fentrada.close();
+		 return(k);
+	}
+
+};
