@@ -1,0 +1,49 @@
+//PROGRAMA 4
+
+//Dado un número entero, comprobar si el número es capicúa, es decir, si leídos de la izquierda a la derecha y viceversa dan el mismo valor o número.  Ej. 34543
+
+
+
+#include "stdafx.h"
+
+#include "conio.h"
+
+#include <iostream>
+
+using namespace std;
+
+
+
+void main()
+
+{int num,z=1,c,r,i;
+
+   cout<<"Ingresar numero: "<<endl;
+
+   cin>>num;
+
+   i=num;
+
+   while(i>0)
+
+   {
+
+	   r=i%10;
+
+       z=z*10+r;
+
+       i=i/10;
+
+   }
+
+   if(z==num)
+
+	   cout<<"El numero es capicua"<< endl;
+
+   else
+
+	   cout <<"El numero no es capicua"<<endl;
+
+   _getch();
+
+}
