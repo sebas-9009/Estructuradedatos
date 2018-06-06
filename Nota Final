@@ -1,0 +1,119 @@
+#pragma once
+
+class notaf
+
+{
+
+    private:
+
+		float primerparcial;
+
+		float segundoparcial;
+
+		float tercerparcial;
+
+		float notapractica;
+
+		float examenfinal;
+
+		float notafinal;
+
+
+
+    public:
+
+	notaf(void);
+
+	~notaf(void);
+
+	float CalcularPromedio(float P1, float P2, float P3, float NP, float EF);
+
+};
+
+
+
+//Programa principal
+
+
+
+#include "stdafx.h"
+
+#include <iostream>
+
+#include "triangulo.h"
+
+#include "conio.h"
+
+using namespace std;
+
+
+
+void main()
+
+{
+
+	notaf notaf1;
+
+	float a,b,c,d,e,f,g,h; int i=0;
+
+	cout<<"Ingrese la nota del primer parcial: ";
+
+	cin>>a;
+
+	cout<<"Ingrese la nota del segundo parcial: ";
+
+	cin>>b;
+
+	cout<<"Ingrese la nota del tercer parcial: ";
+
+	cin>>c;
+
+	cout<<"Ingrese la nota practica: ";
+
+	cin>>d;
+
+	cout<<"Ingrese la nota del examen final: ";
+
+	cin>>e;
+
+	cout<<"La nota final es: "<<notaf1.CalcularPromedio(a,b,c,d,e)<<endl;
+
+	getch();
+
+}
+
+
+
+
+
+
+
+notaf::notaf(void)
+
+{
+
+}
+
+
+
+
+
+notaf::~notaf(void)
+
+{
+
+}
+
+
+
+float notaf::CalcularPromedio(float P1, float P2, float P3, float NP, float EF)
+
+{
+
+	int promedio;
+
+	promedio=(((P1+P2+P3)/3)*0.4)+(NP*0.2)+(EF*0.4);
+
+	return promedio;
+
+}
