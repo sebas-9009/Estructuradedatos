@@ -1,0 +1,340 @@
+#include "StdAfx.h"
+#include <iostream>
+#include <fstream>
+
+using namespace std;
+
+class Ganado{
+private:
+	char	idGanado[10];
+	char	nombre[30];
+	int		edad;
+	char	sexo;
+	char	estado;		
+
+public:
+	Ganado() {
+		strcpy(idGanado,"");
+		strcpy(nombre,"");
+		edad		= 0;
+		sexo		= ' ';
+		estado		= ' ';
+	}
+	
+	Ganado(char idAm[], char nom[], int ed, char sx) {
+		strcpy(idGanado,idAm);
+		strcpy(nombre,nom);
+		edad	= ed;
+		sexo	= sx;
+		estado  = 'A';
+	}
+
+	~Ganado(){
+		}
+	
+	void setGanado(char idGa[], char nom[], int ed, char sx) {
+		strcpy(idGanado,idGa);
+		strcpy(nombre,nom);
+		edad		= ed;
+		sexo		= sx;
+		estado		= 'A';
+	}
+
+	char *getIdGanado() {
+		return(idGanado);
+	}
+
+	char *getNombre() {
+		return(nombre);
+	}
+
+	int getEdad() {
+		return(edad);
+	}
+
+	char getSexo() {
+		return(sexo);
+	}
+
+	char getEstado() {
+		return(estado);
+	}
+
+	void guardarArchivo(ofstream &fsalida) {
+		fsalida.write(reinterpret_cast<char *>(&idGanado), sizeof(idGanado));
+		fsalida.write(reinterpret_cast<char *>(&nombre), sizeof(nombre));
+		fsalida.write(reinterpret_cast<char *>(&edad), sizeof(edad));
+		fsalida.write(reinterpret_cast<char *>(&sexo), sizeof(sexo));
+		fsalida.write(reinterpret_cast<char *>(&estado), sizeof(estado));
+	}
+
+	bool leerArchivo(ifstream &fentrada) {
+		bool k = false;
+		if (fentrada.is_open() == true) {
+			fentrada.read(reinterpret_cast<char *>(&idGanado), sizeof(idGanado));
+			if (fentrada.eof() == false) {		
+				fentrada.read(reinterpret_cast<char *>(&nombre), sizeof(nombre));
+				fentrada.read(reinterpret_cast<char *>(&edad), sizeof(edad));
+				fentrada.read(reinterpret_cast<char *>(&sexo), sizeof(sexo));
+				fentrada.read(reinterpret_cast<char *>(&estado), sizeof(estado));
+				k = true;
+			}else {
+				//cout << endl << "Registro no existe";
+			}
+		}else {
+			cout << endl << "Arhivo no existe";
+		}
+		return(k);
+	}
+	bool eliminar(fstream &fes, int nroReg){
+		bool k = false;
+		if (fes.is_open() == true) {
+			fes.seekg(getTamBytesRegistro() * (nroReg - 1), ios::beg);
+			fes.read(reinterpret_cast<char *>(&idGanado), sizeof(idGanado));
+			if (fes.eof() == false) {
+				fes.read(reinterpret_cast<char *>(&nombre), sizeof(nombre));
+				fes.read(reinterpret_cast<char *>(&edad), sizeof(edad));
+				fes.read(reinterpret_cast<char *>(&sexo), sizeof(sexo));
+				fes.read(reinterpret_cast<char *>(&estado), sizeof(estado));
+		
+				estado = 'E';
+				fes.seekp(getTamBytesRegistro() * (nroReg - 1), ios::beg);
+				fes.write(reinterpret_cast<char *>(&idGanado), sizeof(idGanado));
+				fes.write(reinterpret_cast<char *>(&nombre), sizeof(nombre));
+				fes.write(reinterpret_cast<char *>(&edad), sizeof(edad));
+				fes.write(reinterpret_cast<char *>(&sexo), sizeof(sexo));
+				fes.write(reinterpret_cast<char *>(&estado), sizeof(estado));
+				k = true;
+			}else {
+				cout << endl << "Registro no existe";
+			}			
+		}else {
+			cout << endl << "Arhivo no existe";
+		}
+		return(k);
+	}
+
+
+	bool modificar(fstream &fes, int nroReg){
+		bool k = false;
+		if (fes.is_open() == true) {
+			char aux[10];
+			strcpy(aux,idGanado);
+			fes.seekg(getTamBytesRegistro() * (nroReg - 1), ios::beg);
+			fes.read…
+FORM1
+#pragma once
+#define ARCHIVOGANADO"ganado.dat"
+#include "FormAuto.h"
+namespace proyIGUarchivBinario {
+	using namespace System;
+	using namespace System::ComponentModel;
+	using namespace System::Collections;
+	using namespace System::Windows::Forms;
+	using namespace System::Data;
+	using namespace System::Drawing;
+
+	public ref class Form1 : public System::Windows::Forms::Form
+	{
+	public:
+		Form1(void)
+		{
+			InitializeComponent();
+			ganado= new Ganado();
+		}
+
+	protected:
+		~Form1()
+		{
+			if (components)
+			{
+				delete components;
+			}
+		}….
+#pragma region Windows Form Designer generated code
+	void InitializeComponent(void)
+		{
+			………..
+		}
+#pragma endregion
+	bool intDatos(){		
+		//pasa los datos del form al objeto
+		char	idGanado[10];
+		char	nombre[30];
+		int		edad,i;
+		char	sexo;
+		bool    k = false;
+		if(textBox1->TextLength > 0 && textBox2->TextLength > 0 && textBox3->TextLength > 00){
+			for (i = 0; i < textBox1->TextLength;i++ ) {
+				idGanado[i] = textBox1->Text[i];
+			}
+			idGanado[i] = '\0';
+
+			for (i = 0; i < textBox2->TextLength;i++ ) {
+				nombre[i] = textBox2->Text[i];
+			}
+			nombre[i] = '\0';
+
+			edad = Convert::ToInt32(textBox3->Text);
+		
+			int selectedIndex = comboBox1->SelectedIndex;			Object^ selectedItem = comboBox1->SelectedItem;
+ 		    if (comboBox1->SelectedIndex.Equals(-1)){
+				MessageBox::Show( "Falta seleccionar sexo ..!!"   );
+			}else{ 
+				sexo = ( selectedIndex == 0) ? 'F' : 'M';
+		           ganado>setGanado(idGanado,nombre, edad, sexo);	
+			k = true;
+			textBox1->Text =  ""; textBox2->Text =  ""; textBox3->Text = "";
+				comboBox1->SelectedIndex = -1;
+			}			
+		}else
+		MessageBox::Show("Debe introducir todos los datos ", "Alerta...!!!");
+		return(k);
+	 }
+	 int getNumDeRegistros() {
+		 //retorna la cantidad de registros del archivo
+		int r = 0;
+		ifstream fentrada(ARCHIVOGANADO, ios::in | ios::binary);
+		fentrada.seekg(0, ios::end);		// ir al final del fichero
+		r  = fentrada.tellg();// leer la posición actual
+		r = r / .ganado>getTamBytesRegistro();
+		fentrada.close();
+		return (r);
+	}
+	 int buscarGanado(int nroReg, bool mostrar){
+		 //Busca un registro si lo encuentra puede ser que muestre en form y si no existe retorna -1
+		ifstream fentrada(ARCHIVOGANADO, ios::in | ios::binary);
+		if(.ganado->buscar(fentrada,nroReg) == true) {			
+			if (.ganad->getEstado() == 'A' ) {
+				if(mostrar){
+					textBox1->Text = gcnew String(.ganado>getIdGanado());
+					textBox2->Text = gcnew String(.Ganado>getNombre());
+					textBox3->Text = .Ganado>getEdad().ToString();
+					comboBox1->SelectedIndex = (.Ganado>getSexo() == 'M') ? 1 : 0;					
+				}
+			}else{
+				nroReg=-1;
+			}
+		} else {
+			nroReg=-1;
+		}
+		fentrada.close();
+		if(nroReg <= 0)		MessageBox::Show("Registro no existe..!!! ", "Alerta...!!!");
+		return(nroReg);
+	}
+	 bool buscarGanado(Ganado*reg.Ganado){
+		 //Busca un registro 
+		 bool k = false;
+		 ifstream fentrada(ARCHIVOGANADO, ios::in | ios::binary);
+		 while ((.Ganado>leerArchivo(fentrada) == true)  && (k == false)) {
+			 if (.Ganado>getEstado() == 'A') {
+				 reg.Ganado= .Ganado;
+				 k       = true; 
+			 }
+		 }
+		 fentrada.close();
+		 return(k);
+	}
+	private: System::Void button1_Click(System::Object^  sender, System::EventArgs^  e) {
+		 //adicionar	
+		if (intDatos() == true) {
+			ofstream fsalida(ARCHIVOGANADO, ios::app | ios::binary);//abrir archivo
+			.ganado>guardarArchivo(fsalida);
+			fsalida.close();
+		}
+	 }
+private: System::Void button2_Click(System::Object^  sender, System::EventArgs^   {
+	//listar  
+	//String^ cad = gcnew String();
+	int cr = 0,c=0,nr = getNumDeRegistros();
+	dataGridView1->ReadOnly = true;
+	if(nr > 0) dataGridView1->RowCount = nr; 
+	else{	   dataGridView1->RowCount = 1;
+			   MessageBox::Show("Archivo no existe..!!! ", "Alerta...!!!");
+	}	
+	ifstream fentrada(ARCHIVOGANADO, ios::in | ios::binary);
+	while (.Ganado>leerArchivo(fentrada) == true) {
+		cr++;
+		if (.Ganado>getEstado() == 'A') {
+			dataGridView1->Rows[c]->Cells[0]->Value = cr;
+			dataGridView1->Rows[c]->Cells[1]->Value = gcnew String(.Ganado>getIdGanado());
+			dataGridView1->Rows[c]->Cells[2]->Value = gcnew String(.Ganado>getNombre());
+			dataGridView1->Rows[c]->Cells[3]->Value = .Ganado->getEdad();
+			dataGridView1->Rows[c++]->Cells[4]->Value = (.Ganado->getSexo() == 'M') ? "Macho" : "Hembra";
+		}
+	}
+	fentrada.close();
+	}
+
+	
+private: System::Void button3_Click(System::Object^  sender, System::EventArgs^  e) {
+		//Buscar
+		int nroReg = Convert::ToInt32(textBox5->Text);
+		buscarGanado(nroReg,true);
+	 }
+
+		 	
+private: System::Void button4_Click(System::Object^  sender, System::EventArgs^  e) {
+		 //Borrar
+		int nroReg = Convert::ToInt32(textBox5->Text);
+		nroReg = buscarGanado(nroReg,true);
+		if(nroReg > 0){
+			fstream fes(ARCHIVOGANADO, ios::in | ios::out | ios::binary);
+			.Ganado->eliminar(fes, nroReg);			
+			fes.close();
+		}	
+ }
+private: System::Void button5_Click(System::Object^  sender, System::EventArgs^  e) {
+		//modificar
+		int nroReg = Convert::ToInt32(textBox5->Text);
+		nroReg = buscarGanado(nroReg,false);
+		if(nroReg > 0){				
+			if (intDatos() == true) {
+				fstream fes(ARCHIVOGANADO, ios::in | ios::out | ios::binary);
+				.Ganado->modificar(fes, nroReg);
+				fes.close();
+			}
+		}
+		}
+private: System::Void button6_Click(System::Object^  sender, System::EventArgs^  e) {
+
+			 FormAuto ^ fa = gcnew FormAuto();
+			 fa->Show();
+		 }
+private: System::Void button7_Click(System::Object^  sender, System::EventArgs^  e) {
+	int cm = 0,cf=0;
+ifstream fentrada(ARCHIVOGANADO, ios::in | ios::binary);
+	while (ganado>leerArchivo(fentrada) == true) {
+		if (ganado>getEstado() == 'A') {
+	 if (ganado>getSexo() == 'M')
+	 {
+		cm++;
+	 }
+	 else
+	 {
+		cf++;
+	 }
+		}
+	}
+	fentrada.close();
+	MessageBox::Show("Masculino : "+cm+"  Femenino : "+cf,"Contadores ");
+		 }
+private: System::Void Form1_Load(System::Object^  sender, System::EventArgs^  e) {
+		 }
+private: System::Void label3_Click(System::Object^  sender, System::EventArgs^  e) {
+		 }
+private: System::Void button6_Click_1(System::Object^  sender, System::EventArgs^  e) {
+			 Application::Exit();
+		 }  };  }
+Form login
+private: System::Void button1_Click(System::Object^  sender, System::EventArgs^  e) {
+			 if((txt_usuario->Text !="ADMIN") || (txt_contraseña->Text !="1234")){
+                     MessageBox::Show("Contraseña o Ususario Incorrectos","Error de autenticacion",
+                         MessageBoxButtons::OK,MessageBoxIcon::Error);
+                 }else{
+                     Form1^ x = gcnew Form1();
+                     this ->Hide();
+                     x->ShowDialog();
+                     this->Close();
+                 }
+		 }
