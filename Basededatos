@@ -1,0 +1,1106 @@
+//index.php
+
+<?php
+
+require_once 'controlador/Controlador.php';
+
+$controlador = new Controlador();
+$controlador->load();
+$controlador->render();
+        ?>
+
+//Controlador.php
+
+<?php
+
+/* 
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+require_once __DIR__ . "/../vista/MainnVista.php" ;
+class Controlador
+{
+    private $vista;
+    private $render;
+    
+    public function __construct()
+    {
+        $this->vista = new MainnVista();
+        
+    }
+    public function load()
+    {
+        $html = $this->vista->getView();
+        $this->render = str_replace("", "", $html);
+        
+    }
+    public function render()
+    {
+        echo $this->render;
+    }
+
+}
+
+//MainnVista.php
+
+<?php
+
+/* 
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+class MainnVista
+{
+    private $view;
+    public function __construct()
+    {
+        $this->view = file_get_contents(__DIR__."/mainn.html");
+    }
+    function getView()
+    {
+        return $this->view;
+    }
+    
+}
+
+//mainn.html
+
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+<head>
+       <meta charset="UTF-8">
+  <title>Mi microERP</title>
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"  crossorigin="anonymous">
+  <!-- Optional theme -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css"  crossorigin="anonymous">
+  <!-- Latest compiled and minified JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"  crossorigin="anonymous"></script>
+</head>
+
+<body>
+
+<div class="row">
+  <div class="col-md-4"></div>
+<!-- INICIA LA COLUMNA -->
+  <div class="col-md-4">
+    <center><h1>SISTEMA DE GESTION COMERCIAL</h1></center>
+    <form method="POST" action="controlador/MainnControlador.php" >
+    <center>
+      <input type="submit" value="Cliente" class="btn btn-success" name="btn_cliente">
+      <input type="submit" value="Producto" class="btn btn-danger" name="btn_producto">
+      <input type="submit" value="Venta" class="btn btn-primary" name="btn_venta">
+    </center>
+  </form>
+  </div>
+<!-- TERMINA LA COLUMNA -->
+  <div class="col-md-4"></div>
+</div>
+</body>
+</html>
+
+//MainnControlador.php
+
+<?php
+
+/* 
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+if(isset($_POST['btn_cliente']))
+{
+    require_once __DIR__. '/../vista/Clienteform.php';
+    
+}
+if(isset($_POST['btn_producto']))
+{
+    require_once __DIR__. '/../vista/Productoform.php';
+}
+if(isset($_POST['btn_venta']))
+{
+    require_once __DIR__. '/../vista/Ventaform.php';
+}
+
+//Clienteform.php
+
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+<head>
+       <meta charset="UTF-8">
+  <title>Mi microERP</title>
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"  crossorigin="anonymous">
+
+  <!-- Optional theme -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css"  crossorigin="anonymous">
+
+  <!-- Latest compiled and minified JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"  crossorigin="anonymous"></script>
+</head>
+
+
+<body>
+
+<div class="row">
+  <div class="col-md-4"></div>
+
+<!-- INICIA LA COLUMNA -->
+
+
+  <div class="col-md-4">
+
+    <center><h1>Gestion de Cliente</h1></center>
+
+    <form method="POST" action="../controlador/ClienteControlador.php" >
+
+    <div class="form-group">
+      <label for="idCliente">Id de Cliente</label>
+      <input type="text" name="idCliente" class="form-control" id="idCliente">
+    </div>
+
+    <div class="form-group">
+        <label for="nombre">Nombre </label>
+        <input type="text" name="nombre" class="form-control" id="nombre" >
+    </div>
+
+    <div class="form-group">
+        <label for="nit">NIT </label>
+        <input type="text" name="nit" class="form-control" id="nit">
+    </div>
+
+    <div class="form-group">
+        <label for="tel">Telefono </label>
+        <input type="text" name="tel" class="form-control" id="tel">
+    </div>
+    
+    <div class="form-group">
+        <label for="email">Email </label>
+        <input type="text" name="email" class="form-control" id="email">
+    </div>    
+
+    <div class="form-group">
+        <label for="edad">Edad </label>
+        <input type="text" name="edad" class="form-control" id="edad">
+    </div>  
+
+        
+    <center>
+      <input type="submit" value="Adicionar" class="btn btn-success" name="btn_adicionar">
+      <input type="submit" value="Borrar" class="btn btn-danger" name="btn_borrar">
+      <input type="submit" value="Modificar" class="btn btn-warning" name="btn_modificar">
+      <input type="submit" value="Buscar" class="btn btn-info" name="btn_buscar">
+      <input type="submit" value="Listar" class="btn btn-primary" name="btn_listar">
+      <input type="submit" value="Estadistica" name="btn_estadistica">
+      
+    </center>
+
+  </form>
+
+ 
+  </div>
+
+
+<!-- TERMINA LA COLUMNA -->
+
+
+
+  <div class="col-md-4"></div>
+</div>
+
+
+
+  
+  
+</body>
+</html>
+
+//ClienteControlador.php
+
+<?php
+
+/* 
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+$idCliente = $_POST['idCliente'];
+$nombre    = $_POST['nombre'];
+$nit       = $_POST['nit'];
+$telefono  = $_POST['tel'];
+$email     = $_POST['email'];
+$edad      = $_POST['edad'];
+
+
+
+
+
+
+
+require_once __DIR__.'/../modelo/ClienteModelo.php';
+$ObjCli = new ClienteModelo();
+if(isset($_POST['btn_listar']))
+{
+    $rows = $ObjCli->obtenerTodos();
+    mostrar($rows);
+}
+
+function mostrar($rows="")
+{
+    echo "<table width='75%' border='5' align='center' cellspacing='5' bordercolor='#000000' bgcolor='#FFCC99'>";
+    echo "<caption><h1>Listado de clientes</caption>";
+    echo "<tr>";
+    echo "<th>IdCliente</th>";
+    echo "<th>Nombre y Apellido</th>";
+    echo "<th>NIT</th>";
+    echo "<th>Telefono</th>";
+    echo "<th>Email</th>";
+    echo "<th>Edad</th>";
+    echo "</tr>";
+    while ($fila = $rows->fetch_row())
+    {
+        echo "<tr>";
+        echo "<td> <center>".$fila[0]."</center></td>";
+        echo "<td>".$fila[1]."</td>";
+        echo "<td>".$fila[2]."</td>";
+        echo "<td>".$fila[3]."</td>";
+        echo "<td>".$fila[4]."</td>";
+        echo "<td> <center>".$fila[5]."</td>";
+        echo "</tr>";
+        
+    }
+    echo "</table>";
+}
+function mostrar1($mayor="",$menor="",$promedio="")
+{
+    $may=$mayor->fetch_row();
+    $men=$menor->fetch_row();
+    $pro=$promedio->fetch_row();
+    echo "<table width='75%' border='5' align='center' cellspacing='5' bordercolor='#000000' bgcolor='#FFCC99'>";
+    echo "<caption><h1>Estadistica</caption>";
+    echo "<tr>";
+    echo "<th>Categoria</th>";
+    echo "<th>Nombre</th>";
+    echo "<th>Edad</th>";
+    echo "</tr>";
+   
+    echo "<tr>";
+    echo "<td>"."MAYOR"."</td>";
+    echo "<td>".$may[0]."</td>";
+    echo "<td>".$may[1]."</td>";
+    echo "</tr>";
+    
+    echo "<tr>";
+    echo "<td>"."MENOR"."</td>";
+    echo "<td>".$men[0]."</td>";
+    echo "<td>".$men[1]."</td>";
+    echo "</tr>";
+    echo "</table>";
+    echo "<center><h1>Promedio de las edades: ".$pro[0]."</center></h1>";
+}
+/*function mostrar2($rows2="")
+{
+    echo "<table width='75%' border='5' align='center' cellspacing='5' bordercolor='#000000' bgcolor='#FFCC99'>";
+    echo "<caption><h1>Edad Minima</caption>";
+    echo "<tr>";
+    echo "<th>Edad</th>";
+    echo "<th>Nombre y Apellido</th>";
+    echo "<th>idCliente/Categoria</th>";
+    echo "</tr>";
+    while ($fila = $rows2->fetch_row())
+    {
+        echo "<tr>";
+        echo "<td> <center>".$fila[0]."</center></td>";
+        echo "<td>".$fila[1]."</td>";
+        echo "<td>MIN</td>";
+        echo "</tr>";
+        
+    }
+    echo "</table>";
+}*/
+/*function mostrar3($rows3="")
+{
+    echo "<table width='75%' border='5' align='center' cellspacing='5' bordercolor='#000000' bgcolor='#FFCC99'>";
+    echo "<caption><h1>Promedio de las Edades</caption>";
+    echo "<tr>";
+    echo "<th>Promedio</th>";
+
+    echo "</tr>";
+    while ($fila = $rows3->fetch_row())
+    {
+        echo "<tr>";
+        echo "<td> <center>".$fila[0]."</center></td>";
+
+        echo "</tr>";
+        
+    }
+    echo "</table>";
+}*/
+if(isset($_POST['btn_adicionar']))
+{
+    echo "<br>Presiono el boton adicionar";
+    if($nombre=="")
+    {
+        echo "<br>Debe introducir nombre.. NO SE ADICIONO";
+    }
+    else
+    {
+        echo "<br>Se adiciono exitosamente!";
+        $ObjCli->setNombre($nombre);
+        $ObjCli->setNit($nit);
+        $ObjCli->setTelefono($telefono);
+        $ObjCli->setEmail($email);
+        $ObjCli->setEdad($edad);
+        $ObjCli->adicionar();
+    }
+    
+}
+if(isset($_POST['btn_modificar']))
+{
+    echo "<br>Presiono el boton modificar";
+    if($idCliente==0)
+    {
+        echo "<br>Debe introducir idCliente.. NO SE MODIFICO";
+        
+    }
+    else 
+    {
+        echo "<br>Se modifico exitosamente!";
+        $ObjCli->setNombre($nombre);
+        $ObjCli->setNit($nit);
+        $ObjCli->setTelefono($telefono);
+        $ObjCli->setEmail($email);
+        $ObjCli->setEdad($edad);
+        $ObjCli->modificar($idCliente);
+    }
+}
+if(isset($_POST['btn_buscar']))
+{
+    if($idCliente == 0)
+    {
+        echo "<br>Debe introducir idCliente a buscar";
+    }
+    else
+    {
+        $rows = $ObjCli->obtenerCliente($idCliente);
+        mostrar($rows);
+    }
+}
+if(isset($_POST['btn_borrar']))
+{
+    echo "<br>Presiono el boton borrar";
+    $rows = $ObjCli->borrarCliente($idCliente);
+}
+if(isset($_POST['btn_estadistica']))
+{
+
+   
+   mostrar1($ObjCli->estadistica(), $ObjCli->estadistica1(),$ObjCli->promedio());
+   
+
+    }
+    
+//ClienteModelo.php
+
+<?php
+
+/* 
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+require_once("ConectarDB.php");//incluye una sola vez el contenido del archivo
+class ClienteModelo{
+    private $idCliente;
+    private $nombre;
+    private $nit;
+    private $telefono;
+    private $email;
+    private $edad;
+    
+    public function __construct($nom="",$nt="",$tel="",$em="",$ed="")
+    {
+        $this->idCliente = 0;
+        $this->nombre    = $nom;
+        $this->nit       = $nt;
+        $this->telefono  = $tel;
+        $this->email     = $em;
+        $this->edad      = $ed;
+    }
+    public function __destruct()
+    {
+        
+    }
+    public function setIdCliente($idCli)
+    {
+        $this->idCliente = $idCli;
+    }
+    public function setNombre($nom)
+    {
+        $this->nombre = $nom;
+    }
+    public function setNit($nt)
+    {
+        $this->nit = $nt;
+    }
+    public function setTelefono($tel)
+    {
+        $this->telefono = $tel;
+    }
+    public function setEmail($em)
+    {
+        $this->email = $em;
+    }
+    public function setEdad($ed)
+    {
+        $this->edad = $ed;
+    }
+    public function obtenerTodos()
+    {
+        $sql="SELECT * FROM cliente;";
+        $conexion = Conectar::conectarBD();
+        $rows = $conexion->query($sql);
+        $conexion->close();
+        return($rows);
+    }
+    public function estadistica()
+    {
+        $sql="SELECT nombre,edad FROM cliente WHERE edad=(SELECT MAX(edad)from cliente);";
+        $conexion = Conectar::conectarBD();
+        $rows = $conexion->query($sql);
+        $conexion->close();
+        return($rows);
+    }
+    public function estadistica1()
+    {
+        $sql="SELECT nombre,edad FROM cliente WHERE edad=(SELECT MIN(edad)from cliente);;";
+        $conexion = Conectar::conectarBD();
+        $rows = $conexion->query($sql);
+        $conexion->close();
+        return($rows);
+    }
+    public function promedio()
+    {
+        $sql="SELECT AVG(edad) as PROMEDIO from cliente;";
+        $conexion = Conectar::conectarBD();
+        $rows = $conexion->query($sql);
+        $conexion->close();
+        return($rows);
+    }
+    
+    public function adicionar()
+    {
+        $conexion = Conectar::conectarBD();
+        if($conexion !=false)
+        {
+            $sql = "INSERT INTO cliente(nombre, nit, telefono, email, edad) VALUES(?,?,?,?,?);";
+            $stmt = $conexion->prepare($sql);
+            $stmt->bind_param('ssssi', $this->nombre, $this->nit, $this->telefono, $this->email, $this->edad);
+            if($stmt->execute())
+            {
+                return(true);
+                
+            }
+            else
+            {
+                return(false);
+            }
+            $conexion->close();
+        }
+    }
+    public function modificar($id=0)
+    {
+        $conexion = Conectar::conectarBD();//nos conectamos a la base de datos
+        if($conexion != false)
+        {
+            $sql = "UPDATE cliente SET nombre = ?,nit=?,telefono=?,email=?,edad=? WHERE idcliente=?;";
+            $stmt=$conexion->prepare($sql);
+            $stmt->bind_param('ssssii',$this->nombre, $this->nit, $this->telefono, $this->email, $this->edad,$id);
+            if($stmt->execute())
+            {
+                $conexion->close();
+                return (true);
+                
+            }
+            else
+            {
+                $conexion->close();
+                return (false);
+            }
+          
+        }
+        
+    }
+    public function obtenerCliente($id=0)
+    {
+        $sql = "SELECT * FROM cliente WHERE idCliente=$id;";
+        $conexion = Conectar::conectarBD();
+        $rows = $conexion->query($sql);
+        $conexion->close();
+        return($rows);
+    }
+    public function borrarCliente($id=0)
+    {
+        $sql = "DELETE FROM cliente WHERE idcliente=?;";
+        $conexion = Conectar::conectarBD();
+        $stmt = $conexion->prepare($sql);
+        $stmt->bind_param('s',$id);
+        if($stmt->execute())
+        {
+            $conexion->close();
+            return 1;
+        }
+        else
+        {
+            $conexion->close();
+            return -1;
+        }
+    }
+    public function obtComboCliente()
+    {
+        $sql = "SELECT * FROM cliente;";
+        $conexion = Conectar::conectarBD();
+        $result = $conexion->query($sql);
+        if($result->num_rows>0)
+        {
+            $combobit= "";
+            while($row = $result->fetch_array(MYSQLI_ASSOC))
+            {
+            $combobit .= "<option value='". $row['idCliente'] . "'>" . $row['idCliente'] . " " . $row['nombre'] . " " . $row['edad'] . "</option>";
+            }
+        }
+        else
+        {
+            echo "No hubo resultados";
+        }
+        $conexion->close();
+        return($combobit);
+    
+    
+    
+    
+}
+}
+
+//ConectarDB.php
+
+<?php
+
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+/**
+ * Description of ConectarDB
+ *
+ * @author sebas
+ */
+class Conectar {
+    public static function conectarBD()
+    {
+        $host="localhost";//define el servidor
+        $basededatos="bd_demo";//define el nombre de la base de datos
+        $usuariodb="root";//nombre del usuario autorizado para la BD
+        $clavedb="";//password del usuario
+        
+        try{//bloque de proteccion de fallos mediante intentos
+            $conexion=new mysqli($host,$usuariodb,$clavedb,$basededatos);//crea una instancia para conectar
+        } catch (Exception $e) {//atrapa el posible error
+            echo $e->errorMessage();//muestra el error
+            exit(0);//termina el proceso
+
+        }
+        if($conexion->connect_errno)//verifica si la conexion tuvo algun error
+        {
+            echo "<br>Error..!! No hay conexion a BD";
+            $conexion = false;//retorna  falso para indicar que fallo la conexion
+            exit(0);
+        }
+        return($conexion);//retorna un objeto con la conexion a la bd
+    }
+}
+
+//ProductoControlador.php
+
+<?php
+
+/* 
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+$idProducto = $_POST['idProducto'];
+$nombre     = $_POST['nombre'];
+$stock      = $_POST['stock'];
+$costo      = $_POST['costo'];
+$precio     = $_POST['precio'];
+
+
+
+
+
+
+
+
+require_once __DIR__.'/../modelo/ProductoModelo.php';
+$ObjPro = new ProductoModelo();
+if(isset($_POST['btn_listar1']))
+{
+    $rows = $ObjPro->obtenerTodos();
+    mostrar($rows);
+}
+
+function mostrar($rows="")
+{
+    echo "<table width='75%' border='5' align='center' cellspacing='5' bordercolor='#000000' bgcolor='#FFCC99'>";
+    echo "<caption><h1>Listado de productos</caption>";
+    echo "<tr>";
+    echo "<th>IdProducto</th>";
+    echo "<th>Nombre</th>";
+    echo "<th>Stock</th>";
+    echo "<th>Costo</th>";
+    echo "<th>Precio</th>";
+    echo "</tr>";
+    while ($fila = $rows->fetch_row())
+    {
+        echo "<tr>";
+        echo "<td> <center>".$fila[0]."</center></td>";
+        echo "<td>".$fila[1]."</td>";
+        echo "<td>".$fila[2]."</td>";
+        echo "<td>".$fila[3]."</td>";
+        echo "<td> <center>".$fila[4]."</td>";
+        echo "</tr>";
+        
+    }
+    echo "</table>";
+}
+if(isset($_POST['btn_adicionar1']))
+{
+    echo "<br>Presiono el boton adicionar";
+    if($nombre=="")
+    {
+        echo "<br>Debe introducir nombre.. NO SE ADICIONO";
+    }
+    else
+    {
+        echo "<br>Se adiciono exitosamente!";
+        $ObjPro->setNombre($nombre);
+        $ObjPro->setStock($stock);
+        $ObjPro->setCosto($costo);
+        $ObjPro->setPrecio($precio);
+        $ObjPro->adicionar();
+    }
+    
+}
+if(isset($_POST['btn_modificar1']))
+{
+    echo "<br>Presiono el boton modificar";
+    if($idProducto==0)
+    {
+        echo "<br>Debe introducir idProducto.. NO SE MODIFICO";
+        
+    }
+    else 
+    {
+        echo "<br>Se modifico exitosamente!";
+        $ObjPro->setNombre($nombre);
+        $ObjPro->setStock($stock);
+        $ObjPro->setCosto($costo);
+        $ObjPro->setPrecio($precio);
+        $ObjPro->modificar($idProducto);
+    }
+}
+if(isset($_POST['btn_buscar1']))
+{
+    if($idProducto == 0)
+    {
+        echo "<br>Debe introducir idProducto a buscar";
+    }
+    else
+    {
+        $rows = $ObjPro->obtenerProducto($idProducto);
+        mostrar($rows);
+    }
+}
+if(isset($_POST['btn_borrar1']))
+{
+    echo "<br>Presiono el boton borrar";
+    $rows = $ObjPro->borrarProducto($idProducto);
+}
+
+//ProductoModelo.php
+
+<?php
+
+/* 
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+require_once("ConectarDB.php");//incluye una sola vez el contenido del archivo
+class ProductoModelo{
+    private $idProducto;
+    private $nombre;
+    private $stock;
+    private $costo;
+    private $precio;
+  
+    
+    public function __construct($nom="",$sto="",$cos="",$pre="")
+    {
+        $this->idProducto = 0;
+        $this->nombre    = $nom;
+        $this->stock     = $sto;
+        $this->costo     = $cos;
+        $this->precio    = $pre;
+     
+    }
+    public function __destruct()
+    {
+        
+    }
+    public function setIdProducto($idPro)
+    {
+        $this->idProducto = $idPro;
+    }
+    public function setNombre($nom)
+    {
+        $this->nombre = $nom;
+    }
+    public function setStock($sto)
+    {
+        $this->stock = $sto;
+    }
+    public function setCosto($cos)
+    {
+        $this->costo = $cos;
+    }
+    public function setPrecio($pre)
+    {
+        $this->precio = $pre;
+    }
+  
+    public function obtenerTodos()
+    {
+        $sql="SELECT * FROM producto;";
+        $conexion = Conectar::conectarBD();
+        $rows = $conexion->query($sql);
+        $conexion->close();
+        return($rows);
+    }
+    public function adicionar()
+    {
+        $conexion = Conectar::conectarBD();
+        if($conexion !=false)
+        {
+            $sql = "INSERT INTO producto(nombre, stock, costo, precio) VALUES(?,?,?,?);";
+            $stmt = $conexion->prepare($sql);
+            $stmt->bind_param('ssss', $this->nombre, $this->stock, $this->costo, $this->precio);
+            if($stmt->execute())
+            {
+                return(true);
+                
+            }
+            else
+            {
+                return(false);
+            }
+            $conexion->close();
+        }
+    }
+    public function modificar($id=0)
+    {
+        $conexion = Conectar::conectarBD();//nos conectamos a la base de datos
+        if($conexion != false)
+        {
+            $sql = "UPDATE producto SET nombre = ?,stock=?,costo=?,precio=? WHERE idproducto=?;";
+            $stmt=$conexion->prepare($sql);
+            $stmt->bind_param('siiii',$this->nombre, $this->stock, $this->costo, $this->precio,$id);
+            if($stmt->execute())
+            {
+                $conexion->close();
+                return (true);
+                
+            }
+            else
+            {
+                $conexion->close();
+                return (false);
+            }
+          
+        }
+        
+    }
+    public function obtenerProducto($id=0)
+    {
+        $sql = "SELECT * FROM producto WHERE idProducto=$id;";
+        $conexion = Conectar::conectarBD();
+        $rows = $conexion->query($sql);
+        $conexion->close();
+        return($rows);
+    }
+    public function borrarProducto($id=0)
+    {
+        $sql = "DELETE FROM producto WHERE idproducto=?;";
+        $conexion = Conectar::conectarBD();
+        $stmt = $conexion->prepare($sql);
+        $stmt->bind_param('s',$id);
+        if($stmt->execute())
+        {
+            $conexion->close();
+            return 1;
+        }
+        else
+        {
+            $conexion->close();
+            return -1;
+        }
+    }
+    
+    
+    
+    
+}
+
+//VentaControlador.php
+
+<?php
+
+/* 
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+$idVenta   = $_POST['idVenta'];
+$fecha     = $_POST['fecha'];
+$idCliente = $_POST['idCliente'];
+
+
+
+
+
+
+
+
+
+require_once __DIR__.'/../modelo/VentaModelo.php';
+$ObjVen = new VentaModelo();
+if(isset($_POST['btn_listar2']))
+{
+    $rows = $ObjVen->obtenerTodos();
+    mostrar($rows);
+}
+
+function mostrar($rows="")
+{
+    echo "<table width='75%' border='5' align='center' cellspacing='5' bordercolor='#000000' bgcolor='#FFCC99'>";
+    echo "<caption><h1>Listado de Ventas</caption>";
+    echo "<tr>";
+    echo "<th>IdVenta</th>";
+    echo "<th>Fecha</th>";
+    echo "<th>IdCliente</th>";
+
+    echo "</tr>";
+    while ($fila = $rows->fetch_row())
+    {
+        echo "<tr>";
+        echo "<td> <center>".$fila[0]."</center></td>";
+        echo "<td>".$fila[1]."</td>";
+        echo "<td> <center>".$fila[2]."</td>";
+        echo "</tr>";
+        
+    }
+    echo "</table>";
+}
+if(isset($_POST['btn_adicionar2']))
+{
+    echo "<br>Presiono el boton adicionar";
+    if($fecha=="")
+    {
+        echo "<br>Debe introducir nombre.. NO SE ADICIONO";
+    }
+    else
+    {
+        echo "<br>Se adiciono exitosamente!";
+        $ObjVen->setFecha($fecha);
+        $ObjVen->setIdCliente($idCliente);
+        $ObjVen->adicionar();
+    }
+    
+}
+if(isset($_POST['btn_modificar2']))
+{
+    echo "<br>Presiono el boton modificar";
+    if($idVenta==0)
+    {
+        echo "<br>Debe introducir idVenta.. NO SE MODIFICO";
+        
+    }
+    else 
+    {
+        echo "<br>Se modifico exitosamente!";
+        $ObjVen->setFecha($fecha);
+        $ObjVen->setIdCliente($idCliente);
+        $ObjVen->modificar($idVenta);
+    }
+}
+if(isset($_POST['btn_buscar2']))
+{
+    if($idVenta == 0)
+    {
+        echo "<br>Debe introducir idVenta a buscar";
+    }
+    else
+    {
+        $rows = $ObjVen->obtenerVenta($idVenta);
+        mostrar($rows);
+    }
+}
+if(isset($_POST['btn_borrar2']))
+{
+    echo "<br>Presiono el boton borrar";
+    $rows = $ObjVen->borrarVenta($idVenta);
+}
+
+//VentaModelo.php
+
+<?php
+
+/* 
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+require_once("ConectarDB.php");//incluye una sola vez el contenido del archivo
+class VentaModelo{
+    private $idVenta;
+    private $fecha;
+    private $idCliente;
+
+  
+    
+    public function __construct($fec="",$idClie="")
+    {
+        $this->idVenta   = 0;
+        $this->fecha     = $fec;
+        $this->idCliente = $idClie;
+
+     
+    }
+    public function __destruct()
+    {
+        
+    }
+    public function setIdVenta($idVen)
+    {
+        $this->idVenta = $idVen;
+    }
+    public function setFecha($fec)
+    {
+        $this->fecha = $fec;
+    }
+    public function setIdCliente($idclie)
+    {
+        $this->idCliente = $idclie;
+    }
+  
+    public function obtenerTodos()
+    {
+        $sql="SELECT * FROM venta;";
+        $conexion = Conectar::conectarBD();
+        $rows = $conexion->query($sql);
+        $conexion->close();
+        return($rows);
+    }
+    public function adicionar()
+    {
+        $conexion = Conectar::conectarBD();
+        if($conexion !=false)
+        {
+            $sql = "INSERT INTO venta(fecha, idCliente) VALUES(?,?);";
+            $stmt = $conexion->prepare($sql);
+            $stmt->bind_param('si', $this->fecha, $this->idCliente);
+            if($stmt->execute())
+            {
+                return(true);
+                
+            }
+            else
+            {
+                return(false);
+            }
+            $conexion->close();
+        }
+    }
+    public function modificar($id=0)
+    {
+        $conexion = Conectar::conectarBD();//nos conectamos a la base de datos
+        if($conexion != false)
+        {
+            $sql = "UPDATE venta SET fecha = ?,idCliente=?;";
+            $stmt=$conexion->prepare($sql);
+            $stmt->bind_param('sii',$this->fecha, $this->idCliente,$id);
+            if($stmt->execute())
+            {
+                $conexion->close();
+                return (true);
+                
+            }
+            else
+            {
+                $conexion->close();
+                return (false);
+            }
+          
+        }
+        
+    }
+    public function obtenerVenta($id=0)
+    {
+        $sql = "SELECT * FROM venta WHERE idVenta=$id;";
+        $conexion = Conectar::conectarBD();
+        $rows = $conexion->query($sql);
+        $conexion->close();
+        return($rows);
+    }
+    
+    public function borrarVenta($id=0)
+    {
+        $sql = "DELETE FROM venta WHERE idventa=?;";
+        $conexion = Conectar::conectarBD();
+        $stmt = $conexion->prepare($sql);
+        $stmt->bind_param('s',$id);
+        if($stmt->execute())
+        {
+            $conexion->close();
+            return 1;
+        }
+        else
+        {
+            $conexion->close();
+            return -1;
+        }
+    }
+    
+    
+    
+    
+}
+
+//FIN
